@@ -1,16 +1,26 @@
 palettes:
   - name: global_palette
+    
     fixed-entries:
-      - color: {index: 0, r: 0, g: 0, b: 0}
-      - color: {index: 1, r: 255, g: 255, b: 255}
-      - color: {index: 2, r: 255, g: 0, b: 253}
+      - color: {index: 255, r: 255, g:   0, b: 255}
+      - color: {index: 1, r:   0, g:   0, b:   0}
+      - color: {index: 2, r: 255, g: 0, b: 255}
+      
     images: automatic
 
 converts:
+  - name: shf
+    palette: global_palette
+    compress: zx0
+    tilesets:
+      tile-width: 16
+      tile-height: 16
+      images:
+        - tilesets/shf.png
   - name: link
     palette: global_palette
     
-    transparent-color-index: 0
+    
     images:
       
       - link/link_walk_down_1
@@ -47,30 +57,36 @@ converts:
       - link/link_idle_down
       - link/link_idle_side
       - link/link_idle_up
-      
-      
-
   - name: Items
     palette: global_palette
-    transparent-color-index: 0
+    
     images:
       - items/link_sheild.png
 outputs:
-  - type: appvar
-    name: LINK
-    source-format: c
-    source-init: true
-    lut-entries: false
-    lut-entry-size: 3
-    archived: true
-    header-string: "link"
 
+# Appvar palette
+
+  - type: c
     
-    
-    include-file: link.h
     palettes:
       - global_palette
+
+  
+
+  - type: appvar
+    name: link
+    source-format: c
+    archived: true
+    header-string: "link"
+    include-file: link.h
     converts:
       - link
+  - type: appvar
+    name: mcmapsA
+    source-format: c
+    archived: true
+    header-string: "shf_map"
+    include-file: shf_map.h
+    converts:
+      - shf
 
-      

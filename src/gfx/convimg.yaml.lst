@@ -1,0 +1,9 @@
+global_palette.h
+global_palette.c
+gfx.h
+link.h
+link.c
+link.8xv
+shf_map.h
+mcmapsA.c
+mcmapsA.8xv

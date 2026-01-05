@@ -4,12 +4,17 @@
 #include <time.h>
 #include <fileioc.h>
 
-#include "gfx/link.h"
+
 #include "player.h"
+#include "map_render.h"
+#include "gfx/global_palette.h"
+
 
 #define TARGET_FRAME_TIME 33
-#define CONCAT(a, b) a##b
+
 clock_t frame_start;
+
+
 void lock_fps(){
     clock_t elapsed = clock() - frame_start;
         int elapsed_ms = (elapsed * 1000) / CLOCKS_PER_SEC;
@@ -18,22 +23,24 @@ void lock_fps(){
             msleep(TARGET_FRAME_TIME - elapsed_ms);
         }
 }
-int main(){
-    if (LINK_init() == 0)
-    {
-        return 1;
-    }
-
-    gfx_Begin();
-    gfx_SetDrawBuffer();
-    gfx_SetPalette(global_palette, sizeof_global_palette, 0);
-    gfx_SetTransparentColor(2);
-    init_link_arrays();
-    //compile-time vars
+void init_comp_time_vars(){
     link_image_flipped = gfx_MallocSprite(link_width, link_height);
     current_anim_frame = 1;
     
     link_image = link_walk_down_1;
+}
+int main(){
+  
+
+    gfx_Begin();
+    gfx_SetDrawBuffer();
+    
+    gfx_SetPalette(global_palette, sizeof_global_palette, 0);
+    gfx_SetTransparentColor(2);
+    init_player();
+    //compile-time vars
+    init_comp_time_vars();
+
     //program loop here
     while(1){
         //keyboard scan at every frame
@@ -43,10 +50,14 @@ int main(){
             break;
         }
         //game logic
-        link_update();
+        player_update();
         //game drawing
-        gfx_FillScreen(255);
-        link_draw();
+        gfx_FillScreen(0xFF);
+        
+        player_draw();
+        //tilemap drawing here
+        
+        update_map();
         //buffering frames
         gfx_BlitBuffer();
 

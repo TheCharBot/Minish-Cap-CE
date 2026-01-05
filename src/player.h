@@ -4,6 +4,7 @@
 #include <graphx.h>
 #include <keypadc.h>
 #include <stdbool.h>
+#include "gfx/link.h"
 
 extern gfx_sprite_t *link_image;
 extern gfx_sprite_t *link_image_flipped;
@@ -18,8 +19,14 @@ extern int link_facing;
 extern int current_anim_frame;
 extern int total_anim_frames;
 
-void init_link_arrays(void);
-void link_draw(void);
-void link_update(void);
+
+int init_player(void);
+void player_draw(void);
+void player_update(void);
+
 
 #endif
+
+
+
+

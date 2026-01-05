@@ -3,7 +3,6 @@
 
 
 
-#include "gfx/link.h"
 #include "player.h"
 typedef struct gfx_sprite_t gfx_sprite_t;
 
@@ -39,7 +38,11 @@ bool find_in_array(int arr[], int size, int target) {
     }
     return false;  // Not found
 }
-void init_link_arrays(){
+int init_player(){
+    if (link_init() == 0)
+    {
+        return 1;
+    }
     link_walk_down_frames[0] = placeholder;
     link_walk_down_frames[1] = link_walk_down_1;
     link_walk_down_frames[2] = link_walk_down_2;
@@ -80,7 +83,7 @@ void init_link_arrays(){
     
 
     
-
+    return 1;
 }
 int i = 1;
 void link_anim_down(){
@@ -174,7 +177,8 @@ void link_idle(){
         link_image = link_idle_side;
     }
 }
-void link_draw(void){
+void player_draw(void){
+    
     if (link_facing != 3) {
         gfx_TransparentSprite(link_image, link_x, link_y);
         }
@@ -184,7 +188,8 @@ void link_draw(void){
             gfx_TransparentSprite(link_image_flipped, link_x, link_y);
         }
 }
-void link_update(void){
+void player_update(void){
+        
         if(kb_Data[7] & kb_Up){
             link_anim_up();
             link_move_up();
